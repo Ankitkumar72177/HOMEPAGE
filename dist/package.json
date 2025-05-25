@@ -1,0 +1,13 @@
+{
+  "name": "bookmark-manager",
+  "version": "1.0.0",
+  "description": "A simple bookmark manager with a clean UI",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"No tests configured\""
+  },
+  "keywords": ["bookmarks", "manager", "static-site"],
+  "author": "",
+  "license": "MIT",
+  "framework": "none"
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmark Manager</title>
+    <link rel="icon" href="images_2-modified.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+    <div class="aurora-background">
+        <div class="aurora-gradient"></div>
+    </div>
+    <div class="container">
+        
+        <header>
+            <div class="logo-title-container">
+                <div class="logo-container">
+                    <img src="images_2-modified.png" alt="Bookmark Manager Logo" class="header-logo">
+                </div>
+                <h1>Bookmark Manager</h1>
+            </div>
+            <div class="header-buttons">
+                <button id="add-bookmark" class="add-btn"><i class="fas fa-plus"></i> Add</button>
+            </div>
+        </header>
+
+        <div class="bookmarks-container">
+            <div class="bookmarks-wrapper" id="bookmarks-wrapper">
+                <!-- Bookmarks will be added here dynamically -->
+            </div>
+            <div class="pagination">
+                <div id="pagination-dots"></div> 
+            </div>
+            <div class="swipe-hint">
+                <p>Swipe right to see more <i class="fas fa-arrow-right"></i></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bookmark Modal -->
+    <div id="bookmark-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-bookmark-modal" class="close" title="Close">
+                <i class="fas fa-times"></i>
+            </span>
+            <h2>Add New Bookmark</h2>
+            <form id="bookmark-form">
+                <div class="form-group">
+                    <label for="website-url">Website URL:</label>
+                    <input type="url" id="website-url" placeholder="https://example.com" required>
+                    <p class="form-hint">Enter the website address you want to bookmark</p>
+                </div>
+                <div class="form-group">
+                    <label for="website-name">Custom Name (Optional):</label>
+                    <input type="text" id="website-name" placeholder="My Bookmark">
+                    <p class="form-hint">Leave blank to auto-detect from URL</p>
+                </div>
+                <button type="submit" class="submit-btn">Save Bookmark</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="particles.js"></script>
+    <script src="script-fix.js"></script>
+    <script src="fix.js"></script>
+</body>
+</html>

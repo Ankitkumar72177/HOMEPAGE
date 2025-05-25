@@ -1,0 +1,930 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Particle Canvas */
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0; /* Behind everything */
+    pointer-events: none; /* Allow clicking through the canvas */
+}
+
+/* Simple Hover Pattern Effects */
+.particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    animation: particle-fade 1.5s ease-out forwards;
+}
+
+/* Glow effect for bookmarks */
+.bookmark-card.glow-effect,
+.add-bookmark-card.glow-effect {
+    transition: transform 0.3s ease-out;
+}
+
+/* Simple fade animation */
+@keyframes particle-fade {
+    0% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+/* Aurora animation keyframes */
+@keyframes aurora-animation {
+    0%, 100% {
+        transform: translateX(-50%) translateY(-50%) rotate(0deg);
+    }
+    33% {
+        transform: translateX(-60%) translateY(-60%) rotate(120deg);
+    }
+    66% {
+        transform: translateX(-40%) translateY(-40%) rotate(240deg);
+    }
+}
+
+@keyframes after-aurora-animation {
+    0%, 100% {
+        transform: translateX(-50%) translateY(-50%) rotate(180deg);
+    }
+    50% {
+        transform: translateX(-30%) translateY(-30%) rotate(360deg);
+    }
+}
+
+/* Space Background Styles */
+.large-header {
+   position: fixed;
+   width: 100%;
+   height: 100vh;
+   background: #111;
+   overflow: hidden;
+   background-size: cover;
+   background-position: center center;
+   background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/demo-bg.jpg");
+   z-index: -1;
+   top: 0;
+   left: 0;
+}
+
+.main-title {
+   position: absolute;
+   margin: 0;
+   padding: 5;
+   color: #F9F1E9;
+   text-align: center;
+   top: 50%;
+   left: 50%;
+   -webkit-transform: translate3d(-40%, -30%, 0);
+   transform: translate3d(-40%, -30%, 0);
+}
+
+.demo .main-title {
+   text-transform: uppercase;
+   font-size: 2.2em;
+   letter-spacing: 2.1em;
+}
+
+.main-title .thin {
+   font-weight: 200;
+}
+
+@media only screen and (max-width: 768px) {
+   .demo .main-title {
+      font-size: 3em;
+   }
+}
+
+.main-title .thin {
+   font-weight: 200;
+}
+
+@media only screen and (max-width: 768px) {
+   .demo .main-title {
+      font-size: 3em;
+   }
+}
+
+body {
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #0f1623;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Add overlay for custom backgrounds to improve text readability */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 22, 35, 0.4); /* Dark blue overlay with 40% opacity */
+    backdrop-filter: blur(2px);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+body.has-bg-image::before {
+    opacity: 1;
+}
+
+.aurora-background {
+    position: fixed;
+    inset: 0;
+    z-index: -2; /* Send further back to be behind particles */
+    overflow: hidden;
+}
+
+.aurora-gradient {
+    position: absolute;
+    inset: -10px;
+    pointer-events: none;
+    background-image: 
+        /* Dark gradient for base */
+        repeating-linear-gradient(100deg, #0f1623 0%, #0f1623 7%, transparent 10%, transparent 12%, #0f1623 16%),
+        /* Aurora colors with your preferred dark blue scheme */
+        repeating-linear-gradient(100deg, #0f1623 10%, #1a2535 15%, #2a3246 20%, #223046 25%, #1e2b3c 30%);
+    background-size: 300%, 200%;
+    background-position: 50% 50%, 50% 50%;
+    opacity: 0.7;
+    filter: blur(20px);
+    animation: aurora-animation 25s ease infinite;
+    will-change: transform;
+    mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+}
+
+.aurora-gradient::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: 
+        repeating-linear-gradient(100deg, #0f1623 0%, #0f1623 7%, transparent 10%, transparent 12%, #0f1623 16%),
+        repeating-linear-gradient(100deg, #0f1623 10%, #1a2535 15%, #2a3246 20%, #223046 25%, #1e2b3c 30%);
+    background-size: 200%, 100%;
+    background-attachment: fixed;
+    mix-blend-mode: color-dodge;
+    animation: after-aurora-animation 30s ease infinite;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding-top: 80px;
+    position: relative;
+    z-index: 2; /* Above particles */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background: linear-gradient(to right, rgba(15, 22, 35, 0.9), rgba(44, 62, 80, 0.9));
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.5s ease;
+}
+
+.logo-title-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-container {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #424242;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-container:hover {
+    transform: scale(1.12);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+}
+
+.header-logo {
+    width: 36px; /* Slightly smaller to fit inside the container */
+    height: 36px;
+    border-radius: 50%; /* Make completely round */
+    object-fit: cover; /* Changed from contain to cover for better filling */
+    background-color: transparent; /* Container now has the background */
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+
+.header-logo:hover {
+    transform: scale(1.15); /* Zoom effect on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.logo-bookmark-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    color: #2ecc71; /* Green color to match add button */
+    font-size: 16px;
+    background-color: #424242;
+    border-radius: 50%;
+    padding: 3px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    z-index: 2;
+}
+
+.logo-container:hover .logo-bookmark-icon {
+    transform: scale(1.2);
+    transition: transform 0.3s ease;
+}
+
+h1 {
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin: 0;
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-btn {
+    padding: 10px 18px;
+    background-color: rgba(46, 204, 113, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-weight: 500;
+}
+
+.add-btn .fa-plus {
+    font-size: 0.85rem;
+    margin-right: 2px;
+}
+
+.add-btn .fa-bookmark {
+    margin-right: -2px;
+}
+
+.add-btn:hover {
+    background-color: rgba(46, 204, 113, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.5);
+}
+
+.add-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(46, 204, 113, 0.4);
+}
+
+.bookmarks-container {
+    position: relative;
+    overflow: hidden;
+    padding: 120px 40px 80px 40px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bookmarks-wrapper {
+    display: flex;
+    transition: transform 0.3s ease;
+    gap: 20px;
+    padding: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    width: 100%;
+}
+
+.bookmarks-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.bookmark-page {
+    flex: 0 0 100%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(100px, 1fr)); /* Changed to 4 columns as shown in screenshot */
+    grid-template-rows: repeat(2, auto);
+    gap: 30px 30px; /* Even spacing of 30px as per user preference */
+    scroll-snap-align: start;
+    padding: 50px 20px 70px;
+    width: 100%;
+    justify-items: center;
+    max-width: 1150px;
+    margin: 0 auto;
+    grid-auto-flow: row; /* Ensure items flow in rows properly */
+    position: relative;  /* For positioning context */
+}
+
+.bookmark-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: grab;
+    position: relative;
+    margin: 0;
+    padding: 8px 5px 12px;
+    width: 90px;
+    height: auto;
+    background-color: transparent;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+    z-index: 5;
+    transition: all 0.3s ease;
+}
+
+.bookmark-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    opacity: 0;
+    border: 2px solid transparent;
+}
+
+.bookmark-card:hover {
+    transform: translateY(-5px);
+}
+
+.bookmark-card:hover .bookmark-logo {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
+}
+
+.bookmark-card:hover::after {
+    opacity: 0;
+}
+
+.bookmark-card:active {
+    cursor: grabbing;
+}
+
+.bookmark-card.dragging {
+    opacity: 0.6;
+    cursor: grabbing;
+    transform: scale(1.05);
+    z-index: 50;
+}
+
+.bookmark-card.drop-above::after {
+    opacity: 1;
+    border-top: 2px solid rgba(74, 144, 226, 0.8);
+    box-shadow: 0 -3px 8px rgba(74, 144, 226, 0.5);
+}
+
+.bookmark-card.drop-below::after {
+    opacity: 1;
+    border-bottom: 2px solid rgba(74, 144, 226, 0.8);
+    box-shadow: 0 3px 8px rgba(74, 144, 226, 0.5);
+}
+
+/* Z-index hierarchy: modal(1000) > overlay(900) > UI elements(100) > content(1-10) */
+
+/* Style for the overlay element */
+.add-bookmark-overlay {
+    position: fixed;
+    top: 0;
+    left: 0; 
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.add-bookmark-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.add-bookmark-overlay-content {
+    background-color: #252b39;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.add-bookmark-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 14px;
+    width: 90px;
+    height: auto;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 5;
+}
+
+.add-bookmark-card:hover {
+    transform: translateY(-5px);
+}
+
+.add-bookmark-card:hover .add-bookmark-icon {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
+}
+
+.bookmark-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 12px;
+    background-color: white;
+    padding: 2px;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.15));
+    transition: transform 0.3s ease, filter 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.bookmark-title {
+    font-weight: 700;
+    color: white;
+    word-break: break-word;
+    font-size: 0.9rem; /* Increased font size */
+    max-width: 90px; /* Increased width to accommodate larger text */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 12px; /* Increased margin for more space between logo and title */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.9); /* Enhanced text shadow for better readability */
+    display: block;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+    height: 20px; /* Increased height for larger text */
+    padding-bottom: 2px;
+}
+
+.bookmark-url {
+    display: none;
+}
+
+.menu-container {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    z-index: 10;
+}
+
+.menu-button {
+    background: rgba(52, 73, 94, 0.7);
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 0.65rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s;
+}
+
+.menu-button:hover {
+    background: rgba(52, 73, 94, 0.9);
+}.bookmark-page {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(100px, 1fr));
+    grid-template-rows: repeat(2, auto);
+    gap: 30px 25px; /* Here is where the spacing is defined */
+    scroll-snap-align: start;
+    padding: 45px 20px 70px;
+    /* other properties... */
+}
+
+.bookmark-card:hover .menu-button {
+    opacity: 1;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    width: 85px;
+    z-index: 150;
+}
+
+.dropdown-menu.show {
+    display: flex;
+}
+
+.menu-item {
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 6px 8px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+    background-color: #f5f5f5;
+}
+
+.menu-item.delete-bookmark {
+    color: #e74c3c;
+}
+
+.menu-item.edit-bookmark {
+    color: #3498db;
+}
+
+.pagination {
+    display: none; /* Hide pagination completely */
+}
+
+/* #pagination-dots {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: transparent;
+    padding: 8px 15px;
+}
+
+.pagination-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 0 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.pagination-dot.active {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.3);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+*/
+.swipe-hint {
+    text-align: center;
+    margin-top: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    position: fixed;
+    bottom: 15px;
+    width: 100%;
+    left: 0;
+} 
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 25px;
+    padding-top: 35px;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+    width: 80%;
+    max-width: 450px;
+    position: relative;
+}
+
+.modal-content h2 {
+    color: #333;
+    margin-bottom: 18px;
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+.close {
+    color: #666;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 8px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 10;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    background-color: #ddd;
+    transform: scale(1.1);
+    box-shadow: 0 3px 7px rgba(0,0,0,0.15);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #34495e;
+    font-size: 1rem;
+}
+
+input[type="text"],
+input[type="url"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 2px 10px rgba(52, 152, 219, 0.2);
+}
+
+.form-hint {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.submit-btn {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+}
+
+.submit-btn:hover {
+    background-color: #27ae60;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(46, 204, 113, 0.3);
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.submit-btn {
+    width: 100%;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(46, 204, 113, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: slide-in 0.3s ease-out forwards;
+    transition: opacity 0.3s ease;
+}
+
+.notification.fade-out {
+    opacity: 0;
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    header {
+        padding: 10px 15px;
+    }
+    
+    .bookmark-page {
+        grid-template-columns: repeat(3, 1fr); /* Increased from 2 to 3 for smaller cards */
+        gap: 30px 35px; /* Decreased gap for smaller cards */
+        padding: 30px 10px;
+    }
+    
+    .modal-content {
+        width: 90%;
+    }
+}
+
+/* Extra small screen support */
+@media (max-width: 480px) {
+    .bookmark-page {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px 25px;
+        padding: 20px 5px;
+    }
+    
+    .bookmarks-container {
+        padding: 100px 20px 80px 20px;
+    }
+    
+    h1 {
+        font-size: 1.4rem;
+    }
+}
+
+/* Ultra small screen support */
+@media (max-width: 360px) {
+    .bookmark-page {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px 15px;
+    }
+}
+
+.add-bookmark-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: white;
+    font-size: 1.5rem;
+    padding: 0;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.2));
+    transition: all 0.3s ease;
+}
+
+/* Clean up conflicting hover states and active states */
+.add-bookmark-card:active,
+.add-bookmark-card:focus {
+    transform: translateY(0);
+}
+
+.add-bookmark-card:active .add-bookmark-icon,
+.add-bookmark-card:focus .add-bookmark-icon {
+    transform: scale(0.95);
+}
+
+/* Drag and drop styling - consistent with z-index hierarchy */
+.bookmark-card.dragging {
+    opacity: 0.6;
+    transform: scale(1.05);
+    z-index: 50;
+    cursor: grabbing;
+}
+
+.bookmark-page.drag-over {
+    border-radius: 12px;
+}
+
+/* Enhance bookmark card styles for better dragging experience */
+.bookmark-card {
+    cursor: grab;
+}
+
+.bookmark-card:active {
+    cursor: grabbing;
+}
