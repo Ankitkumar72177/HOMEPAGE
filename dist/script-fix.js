@@ -957,4 +957,48 @@ document.addEventListener('DOMContentLoaded', function() {
         
         clearDropIndicators();
     }
+
+    // Indian Standard Time Clock Functionality
+    function updateClock() {
+        const now = new Date();
+        
+        // Convert to Indian Standard Time (UTC+5:30)
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const istOffset = 5.5; // IST is UTC+5:30
+        const ist = new Date(utc + (istOffset * 3600000));
+        
+        // Format time (24-hour format)
+        const hours = ist.getHours().toString().padStart(2, '0');
+        const minutes = ist.getMinutes().toString().padStart(2, '0');
+        const seconds = ist.getSeconds().toString().padStart(2, '0');
+        const timeString = `${hours}:${minutes}:${seconds}`;
+        
+        // Format date
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+        
+        const dayName = days[ist.getDay()];
+        const monthName = months[ist.getMonth()];
+        const date = ist.getDate();
+        const year = ist.getFullYear();
+        
+        const dateString = `${dayName}, ${monthName} ${date}, ${year}`;
+        
+        // Update the display
+        const timeDisplay = document.getElementById('time-display');
+        const dateDisplay = document.getElementById('date-display');
+        
+        if (timeDisplay) timeDisplay.textContent = timeString;
+        if (dateDisplay) dateDisplay.textContent = dateString;
+    }
+    
+    // Start the clock
+    function initializeClock() {
+        updateClock(); // Update immediately
+        setInterval(updateClock, 1000); // Update every second
+    }
+    
+    // Initialize clock when DOM is loaded
+    initializeClock();
 });

@@ -7,7 +7,7 @@ headers = []
 [functions."*"]
 
 [build]
-publish = "/Users/ankitkumar/Downloads/project/homepages_1/dist"
+publish = "/Users/ankitkumar/Downloads/project/homepages"
 publishOrigin = "config"
 
 [build.environment]
