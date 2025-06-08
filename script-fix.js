@@ -967,11 +967,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const istOffset = 5.5; // IST is UTC+5:30
         const ist = new Date(utc + (istOffset * 3600000));
         
-        // Format time (24-hour format)
-        const hours = ist.getHours().toString().padStart(2, '0');
+        // Format time (12-hour format)
+        let hours = ist.getHours();
         const minutes = ist.getMinutes().toString().padStart(2, '0');
         const seconds = ist.getSeconds().toString().padStart(2, '0');
-        const timeString = `${hours}:${minutes}:${seconds}`;
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        
+        // Convert to 12-hour format
+        hours = hours % 12;
+        hours = hours ? hours : 12; // 0 should be 12
+        const hoursFormatted = hours.toString().padStart(2, '0');
+        
+        const timeString = `${hoursFormatted}:${minutes}:${seconds} ${ampm}`;
         
         // Format date
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
