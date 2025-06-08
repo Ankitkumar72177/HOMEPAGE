@@ -1,6 +1,6 @@
 # Netlify configuration
 [build]
-  publish = "dist"
+  publish = "."
   command = ""  # No build command needed for static site
 
 # Handle SPA routing
